@@ -1,0 +1,41 @@
+# Central configuration. Change the model here without touching the code.
+llm:
+  provider: gemini
+  model: gemini-3.7-flash      # run 'py check_models.py' to see names that work for your key
+  fallback_models:             # tried in order if the main model is busy or unavailable
+    - gemini-3.6-flash
+    - gemini-3.5-flash-lite
+    - gemini-3.1-flash-lite
+  temperature_mood: 0.2        # low = consistent mood extraction
+  temperature_rerank: 0.5      # a bit higher = more natural explanations
+  max_output_tokens: 4096
+  max_retries: 3               # retries on malformed JSON or API errors
+  retry_backoff_seconds: 2
+
+data:
+  movies_path: data/movies.csv
+
+recommendation:
+  candidate_pool: 12           # movies passed from filtering to the LLM reranker
+  num_results: 5               # movies shown to the user
+
+# Controlled vocabulary shared by the dataset, the prompt and the filter
+vocab:
+  moods:
+    - comforting
+    - uplifting
+    - funny
+    - inspiring
+    - thoughtful
+    - melancholic
+    - tense
+    - thrilling
+    - adventurous
+    - romantic
+    - mind-bending
+    - heartwarming
+    - cathartic
+    - energetic
+    - escapist
+    - dark
+  pacing: [slow, medium, fast, any]
